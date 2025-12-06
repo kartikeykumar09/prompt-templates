@@ -3,7 +3,7 @@ import './index.css';
 import { promptTemplates, categories } from './data/templates';
 import type { PromptTemplate } from './data/templates';
 
-// Category to CSS class mapping
+// Category styling
 const categoryClass: Record<string, string> = {
   'Code Generation': 'code',
   'Content & Writing': 'content',
@@ -11,6 +11,59 @@ const categoryClass: Record<string, string> = {
   'AI & Prompts': 'ai',
   'DevOps': 'devops',
   'Product & Business': 'product',
+};
+
+// Category icons
+const CategoryIcon = ({ category }: { category: string }) => {
+  const iconClass = categoryClass[category] || 'code';
+  
+  const icons = {
+    code: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="16 18 22 12 16 6"/>
+        <polyline points="8 6 2 12 8 18"/>
+      </svg>
+    ),
+    content: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+        <path d="M2 2l7.586 7.586"/>
+        <circle cx="11" cy="11" r="2"/>
+      </svg>
+    ),
+    data: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <ellipse cx="12" cy="5" rx="9" ry="3"/>
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+      </svg>
+    ),
+    ai: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
+        <circle cx="8" cy="14" r="1"/>
+        <circle cx="16" cy="14" r="1"/>
+      </svg>
+    ),
+    devops: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </svg>
+    ),
+    product: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    ),
+  };
+
+  return (
+    <div className={`card-icon ${iconClass}`}>
+      {icons[iconClass] || icons.code}
+    </div>
+  );
 };
 
 function App() {
@@ -54,12 +107,10 @@ function App() {
             <span>Free Resource</span>
           </div>
           <h1>Prompt Engineering Templates</h1>
-          <p>
-            Production-tested prompts. Copy, customize, deploy.
-          </p>
+          <p>Production-tested prompts. Copy, customize, deploy.</p>
         </header>
 
-        {/* Search and Filters */}
+        {/* Controls */}
         <div className="controls">
           <div className="search-box">
             <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -101,45 +152,71 @@ function App() {
         {/* Templates Grid */}
         {filteredTemplates.length > 0 ? (
           <div className="templates-grid">
-            {filteredTemplates.map(template => (
-              <div key={template.id} className="template-card">
-                <div className="card-header">
-                  <h3 className="card-title">{template.title}</h3>
-                  <span className={`card-category ${categoryClass[template.category] || ''}`}>
-                    {template.category.split(' ')[0]}
-                  </span>
+            {filteredTemplates.map(template => {
+              const catClass = categoryClass[template.category] || 'code';
+              return (
+                <div key={template.id} className="template-card">
+                  <div className={`card-accent ${catClass}`}></div>
+                  <div className="card-content">
+                    <div className="card-header">
+                      <CategoryIcon category={template.category} />
+                      <div className="card-title-section">
+                        <h3 className="card-title">{template.title}</h3>
+                        <span className="card-category-tag">{template.category}</span>
+                      </div>
+                    </div>
+                    
+                    <p className="card-description">{template.description}</p>
+                    
+                    {/* Editor-style Preview */}
+                    <div className="editor-preview">
+                      <div className="editor-titlebar">
+                        <div className="editor-dots">
+                          <span className="editor-dot red"></span>
+                          <span className="editor-dot yellow"></span>
+                          <span className="editor-dot green"></span>
+                        </div>
+                        <span className="editor-filename">prompt.txt</span>
+                      </div>
+                      <div className="editor-content">
+                        <div className="editor-lines">
+                          <span>1</span>
+                          <span>2</span>
+                          <span>3</span>
+                          <span>4</span>
+                        </div>
+                        <div className="editor-code">
+                          {template.prompt.substring(0, 150)}...
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="card-actions">
+                      <button 
+                        className="btn btn-primary"
+                        onClick={() => copyToClipboard(template.prompt)}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy
+                      </button>
+                      <button 
+                        className="btn btn-secondary"
+                        onClick={() => setSelectedTemplate(template)}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        View
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                
-                <p className="card-description">{template.description}</p>
-                
-                <div className="prompt-preview">
-                  {template.prompt.substring(0, 150)}...
-                </div>
-                
-                <div className="card-actions">
-                  <button 
-                    className="btn btn-primary"
-                    onClick={() => copyToClipboard(template.prompt)}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                    </svg>
-                    Copy
-                  </button>
-                  <button 
-                    className="btn btn-secondary"
-                    onClick={() => setSelectedTemplate(template)}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                      <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                    View
-                  </button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="empty-state">
@@ -176,13 +253,24 @@ function App() {
             <div className="modal-body">
               <p>{selectedTemplate.description}</p>
               
-              <div className="prompt-full">
-                {selectedTemplate.prompt}
+              {/* Editor-style Full View */}
+              <div className="editor-full">
+                <div className="editor-titlebar">
+                  <div className="editor-dots">
+                    <span className="editor-dot red"></span>
+                    <span className="editor-dot yellow"></span>
+                    <span className="editor-dot green"></span>
+                  </div>
+                  <span className="editor-filename">{selectedTemplate.id}.txt</span>
+                </div>
+                <div className="editor-code-full">
+                  {selectedTemplate.prompt}
+                </div>
               </div>
               
               <div className="tips-section">
                 <h4>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10"/>
                     <path d="M12 16v-4M12 8h.01"/>
                   </svg>
@@ -205,7 +293,7 @@ function App() {
                   setSelectedTemplate(null);
                 }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                 </svg>
@@ -225,7 +313,7 @@ function App() {
       {/* Toast */}
       {toast && (
         <div className="toast">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M20 6 9 17l-5-5"/>
           </svg>
           {toast}
