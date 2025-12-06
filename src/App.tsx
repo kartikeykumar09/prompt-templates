@@ -3,6 +3,16 @@ import './index.css';
 import { promptTemplates, categories } from './data/templates';
 import type { PromptTemplate } from './data/templates';
 
+// Category to CSS class mapping
+const categoryClass: Record<string, string> = {
+  'Code Generation': 'code',
+  'Content & Writing': 'content',
+  'Data & Analysis': 'data',
+  'AI & Prompts': 'ai',
+  'DevOps': 'devops',
+  'Product & Business': 'product',
+};
+
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -26,7 +36,7 @@ function App() {
     try {
       await navigator.clipboard.writeText(text);
       setToast('Copied to clipboard!');
-      setTimeout(() => setToast(null), 2500);
+      setTimeout(() => setToast(null), 2000);
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -38,15 +48,14 @@ function App() {
         {/* Header */}
         <header className="header">
           <div className="header-badge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
             </svg>
             <span>Free Resource</span>
           </div>
           <h1>Prompt Engineering Templates</h1>
           <p>
-            Production-tested prompts for developers, marketers, and AI practitioners. 
-            Copy, customize, and deploy instantly.
+            Production-tested prompts. Copy, customize, deploy.
           </p>
         </header>
 
@@ -84,6 +93,11 @@ function App() {
           </div>
         </div>
 
+        {/* Stats */}
+        <div className="stats-bar">
+          <span>Showing <strong>{filteredTemplates.length}</strong> of {promptTemplates.length} templates</span>
+        </div>
+
         {/* Templates Grid */}
         {filteredTemplates.length > 0 ? (
           <div className="templates-grid">
@@ -91,13 +105,15 @@ function App() {
               <div key={template.id} className="template-card">
                 <div className="card-header">
                   <h3 className="card-title">{template.title}</h3>
-                  <span className="card-category">{template.category}</span>
+                  <span className={`card-category ${categoryClass[template.category] || ''}`}>
+                    {template.category.split(' ')[0]}
+                  </span>
                 </div>
                 
                 <p className="card-description">{template.description}</p>
                 
                 <div className="prompt-preview">
-                  {template.prompt.substring(0, 200)}...
+                  {template.prompt.substring(0, 150)}...
                 </div>
                 
                 <div className="card-actions">
@@ -105,7 +121,7 @@ function App() {
                     className="btn btn-primary"
                     onClick={() => copyToClipboard(template.prompt)}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                     </svg>
@@ -115,7 +131,7 @@ function App() {
                     className="btn btn-secondary"
                     onClick={() => setSelectedTemplate(template)}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
@@ -131,7 +147,7 @@ function App() {
               <circle cx="11" cy="11" r="8"/>
               <path d="m21 21-4.35-4.35"/>
             </svg>
-            <p>No templates found matching your criteria.</p>
+            <p>No templates found. Try a different search.</p>
           </div>
         )}
 
@@ -151,7 +167,7 @@ function App() {
             <div className="modal-header">
               <h2>{selectedTemplate.title}</h2>
               <button className="modal-close" onClick={() => setSelectedTemplate(null)}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6 6 18M6 6l12 12"/>
                 </svg>
               </button>
@@ -160,13 +176,18 @@ function App() {
             <div className="modal-body">
               <p>{selectedTemplate.description}</p>
               
-              <label>Full Prompt Template:</label>
               <div className="prompt-full">
                 {selectedTemplate.prompt}
               </div>
               
               <div className="tips-section">
-                <h4>💡 Usage Tips</h4>
+                <h4>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                  Usage Tips
+                </h4>
                 <ul>
                   {selectedTemplate.tips.map((tip, index) => (
                     <li key={index}>{tip}</li>
@@ -184,7 +205,7 @@ function App() {
                   setSelectedTemplate(null);
                 }}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                 </svg>
