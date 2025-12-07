@@ -61,7 +61,7 @@ const CategoryIcon = ({ category }: { category: string }) => {
 
   return (
     <div className={`card-icon ${iconClass}`}>
-      {icons[iconClass] || icons.code}
+      {icons[iconClass as keyof typeof icons] || icons.code}
     </div>
   );
 };
@@ -169,7 +169,10 @@ function App() {
                     <p className="card-description">{template.description}</p>
                     
                     {/* Editor-style Preview */}
-                    <div className="editor-preview">
+                    <div 
+                      className="editor-preview clickable"
+                      onClick={() => setSelectedTemplate(template)}
+                    >
                       <div className="editor-titlebar">
                         <div className="editor-dots">
                           <span className="editor-dot red"></span>
@@ -189,29 +192,6 @@ function App() {
                           {template.prompt.substring(0, 150)}...
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="card-actions">
-                      <button 
-                        className="btn btn-primary"
-                        onClick={() => copyToClipboard(template.prompt)}
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                        Copy
-                      </button>
-                      <button 
-                        className="btn btn-secondary"
-                        onClick={() => setSelectedTemplate(template)}
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                          <circle cx="12" cy="12" r="3"/>
-                        </svg>
-                        View
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -237,34 +217,57 @@ function App() {
         </footer>
       </div>
 
-      {/* Modal */}
+      {/* Side Panel (Drawer) */}
       {selectedTemplate && (
-        <div className="modal-overlay" onClick={() => setSelectedTemplate(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>{selectedTemplate.title}</h2>
-              <button className="modal-close" onClick={() => setSelectedTemplate(null)}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <>
+          <div className="side-panel-overlay" onClick={() => setSelectedTemplate(null)} />
+          <div className="side-panel">
+            <div className="panel-header">
+              <div className="panel-title">
+                <h2>{selectedTemplate.title}</h2>
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                  <span className={`card-category-tag`} style={{ color: 'var(--primary)' }}>
+                    {selectedTemplate.category}
+                  </span>
+                </div>
+              </div>
+              <button className="panel-close" onClick={() => setSelectedTemplate(null)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6 6 18M6 6l12 12"/>
                 </svg>
               </button>
             </div>
             
-            <div className="modal-body">
-              <p>{selectedTemplate.description}</p>
-              
-              {/* Editor-style Full View */}
-              <div className="editor-full">
-                <div className="editor-titlebar">
-                  <div className="editor-dots">
-                    <span className="editor-dot red"></span>
-                    <span className="editor-dot yellow"></span>
-                    <span className="editor-dot green"></span>
+            <div className="panel-content">
+              <div className="panel-section">
+                <p className="panel-description">{selectedTemplate.description}</p>
+                
+                {/* Editor-style Full View */}
+                <div className="editor-full">
+                  <div className="editor-titlebar">
+                    <div className="editor-left">
+                      <div className="editor-dots">
+                        <span className="editor-dot red"></span>
+                        <span className="editor-dot yellow"></span>
+                        <span className="editor-dot green"></span>
+                      </div>
+                      <span className="editor-filename">{selectedTemplate.id}.txt</span>
+                    </div>
+                    <button 
+                      className="editor-copy-btn"
+                      onClick={() => copyToClipboard(selectedTemplate.prompt)}
+                      title="Copy to clipboard"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      </svg>
+                      <span>Copy</span>
+                    </button>
                   </div>
-                  <span className="editor-filename">{selectedTemplate.id}.txt</span>
-                </div>
-                <div className="editor-code-full">
-                  {selectedTemplate.prompt}
+                  <div className="editor-code-full">
+                    {selectedTemplate.prompt}
+                  </div>
                 </div>
               </div>
               
@@ -283,31 +286,8 @@ function App() {
                 </ul>
               </div>
             </div>
-            
-            <div className="modal-footer">
-              <button 
-                className="btn btn-primary" 
-                style={{ flex: 1 }}
-                onClick={() => {
-                  copyToClipboard(selectedTemplate.prompt);
-                  setSelectedTemplate(null);
-                }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                </svg>
-                Copy & Close
-              </button>
-              <button 
-                className="btn btn-secondary"
-                onClick={() => setSelectedTemplate(null)}
-              >
-                Cancel
-              </button>
-            </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Toast */}
