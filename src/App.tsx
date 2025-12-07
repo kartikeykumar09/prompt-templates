@@ -100,11 +100,17 @@ function App() {
       <div className="container">
         {/* Header */}
         <header className="header">
-          <div className="header-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-            <span>Free Resource</span>
+          <div className="header-top-row" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div className="header-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span>Free Resource</span>
+            </div>
+            <a href="https://github.com/kartikeykumar09/prompt-templates" target="_blank" rel="noreferrer" className="header-badge github-badge" style={{ textDecoration: 'none', cursor: 'pointer', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
+              <img src="https://unpkg.com/simple-icons@v13/icons/github.svg" width="14" height="14" style={{ filter: 'invert(1)', objectFit: 'contain' }} alt="GitHub" />
+              <span>View Source</span>
+            </a>
           </div>
           <h1>Prompt Engineering Templates</h1>
           <p>Production-tested prompts. Copy, customize, deploy.</p>
