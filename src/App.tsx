@@ -100,17 +100,11 @@ function App() {
       <div className="container">
         {/* Header */}
         <header className="header">
-          <div className="header-top-row" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <div className="header-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-              <span>Free Resource</span>
-            </div>
-            <a href="https://github.com/kartikeykumar09/prompt-templates" target="_blank" rel="noreferrer" className="header-badge github-badge" style={{ textDecoration: 'none', cursor: 'pointer', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-              <img src="https://unpkg.com/simple-icons@v13/icons/github.svg" width="14" height="14" style={{ filter: 'invert(1)', objectFit: 'contain' }} alt="GitHub" />
-              <span>View Source</span>
-            </a>
+          <div className="header-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Free Resource</span>
           </div>
           <h1>Prompt Engineering Templates</h1>
           <p>Production-tested prompts. Copy, customize, deploy.</p>
@@ -220,6 +214,10 @@ function App() {
             Built by <a href="https://kartikeykumar.com" target="_blank" rel="noopener noreferrer">Kartikey Kumar</a> · 
             More tools at <a href="https://kartikeykumar.com/tools" target="_blank" rel="noopener noreferrer">kartikeykumar.com/tools</a>
           </p>
+          <a href="https://github.com/kartikeykumar09/prompt-templates" target="_blank" rel="noopener noreferrer" className="github-footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>
+            <img src="https://unpkg.com/simple-icons@v13/icons/github.svg" width="16" height="16" style={{ filter: 'invert(0.5)', opacity: 0.7 }} alt="GitHub" />
+            View Source Code
+          </a>
         </footer>
       </div>
 
