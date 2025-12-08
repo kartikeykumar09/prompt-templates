@@ -2,7 +2,7 @@
 
 > Pre-built, production-tested prompts for common AI use cases. Copy, customize, and deploy.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://kartikeykumar.com/tools/prompt-templates/)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://kartikeykumar.in/tools/prompt-templates/)
 [![React](https://img.shields.io/badge/React-18-blue)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-5-purple)](https://vitejs.dev)
@@ -191,10 +191,10 @@ MIT License - feel free to use these templates in your projects!
 
 ## 🙏 Acknowledgments
 
-- Built by [Kartikey Kumar](https://kartikeykumar.com)
-- Part of the [Free Developer Tools](https://kartikeykumar.com/tools) suite
+- Built by [Kartikey Kumar](https://kartikeykumar.in)
+- Part of the [Free Developer Tools](https://kartikeykumar.in/tools) suite
 - Inspired by the AI/LLM community
 
 ---
 
-**[🔗 Live Demo](https://kartikeykumar.com/tools/prompt-templates/)** | **[🐛 Report Bug](https://github.com/kartikeykumar09/prompt-templates/issues)** | **[💡 Submit Template](https://github.com/kartikeykumar09/prompt-templates/pulls)**
+**[🔗 Live Demo](https://kartikeykumar.in/tools/prompt-templates/)** | **[🐛 Report Bug](https://github.com/kartikeykumar09/prompt-templates/issues)** | **[💡 Submit Template](https://github.com/kartikeykumar09/prompt-templates/pulls)**
